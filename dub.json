@@ -1,0 +1,19 @@
+{
+	"authors": [
+		"Lispy Snake, Ltd."
+	],
+	"copyright": "Copyright © 2019-2020 Lispy Snake, Ltd.",
+	"dependencies": {
+		"chipmunkd": {
+			"path": "external/chipmunkd",
+		}
+	},
+	"description": "Serpent 2D Physics Support",
+	"libs": [
+		"chipmunk",
+	],
+	"lflags": ["-L../serpent-support/runtime/lib"],
+	"license": "ZLib",
+	"name": "serpent-physics2d",
+	"targetType": "library",
+}
