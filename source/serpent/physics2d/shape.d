@@ -137,4 +137,14 @@ public:
         assert(v.y >= 0.0f && v.y <= 1.0f, "Surface velocity Y not within 0.0f and 1.0f");
         cpShapeSetSurfaceVelocity(chipShape, cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y));
     }
+
+    /**
+     * Return the bounding box for the shape
+     */
+    pragma(inline, true) final @property box2f boundingBox() @trusted
+    {
+        auto cpBoundingBox = cpShapeGetBB(chipShape);
+        return rectanglef(cast(float) cpBoundingBox.l, cast(float) cpBoundingBox.t,
+                cast(float) cpBoundingBox.r, cast(float) cpBoundingBox.b);
+    }
 }
