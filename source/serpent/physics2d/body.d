@@ -22,6 +22,7 @@
 
 module serpent.physics2d.body;
 
+public import serpent.physics2d.abstractWorld;
 public import serpent.physics2d.shape;
 public import gfm.math;
 
@@ -70,6 +71,19 @@ package:
 public:
 
     /**
+     * Return the world instance that this body is in
+     */
+    final @property AbstractWorld world() @trusted
+    {
+        cpSpace* space = cpBodyGetSpace(chipBody);
+        if (space is null)
+        {
+            return null;
+        }
+        return cast(AbstractWorld) space.userData;
+    }
+
+    /**
      * Add the Shape to this Body
      */
     final void addShape(Shape shape) @trusted
@@ -77,5 +91,4 @@ public:
         assert(shape !is null, "Cannot add null shape to Body");
         shape.body = this;
     }
-
 }
