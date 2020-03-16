@@ -115,6 +115,15 @@ package:
         cpSpaceRemoveBody(space, _body.chipBody());
     }
 
+    /**
+     * Return true if we own this body
+     */
+    final bool contains(Body _body) @trusted
+    {
+        assert(_body !is null, "Cannot check contains for null body");
+        return cpSpaceContainsBody(space, _body.chipBody) == cpTrue ? true : false;
+    }
+
 public:
 
     /**

@@ -57,6 +57,17 @@ public:
     {
         /* TODO: Add frame step accumulator */
         _world.step(view, context.frameTime);
+
+        /* Find unregistered physics bodies for f+1 */
+        foreach (entity, transform, physics; view.withComponents!(TransformComponent,
+                PhysicsComponent))
+        {
+            if (_world.contains(physics.body))
+            {
+                continue;
+            }
+            _world.add(physics.body);
+        }
     }
 
     /**
