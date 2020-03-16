@@ -196,4 +196,24 @@ public:
         }
         world.remove(shape);
     }
+
+    /**
+     * Return the current position property for this body
+     */
+    final @property vec2f position() @trusted
+    {
+        auto cpPosition = cpBodyGetPosition(chipBody);
+        return vec2f(cast(float) cpPosition.x, cast(float) cpPosition.y);
+    }
+
+    /**
+     * Set the position property for this body
+     *
+     * This should only be used when setting an *initial* position prior
+     * to simulation
+     */
+    final @property void position(vec2f position) @trusted
+    {
+        cpBodySetPosition(chipBody, cpVect(cast(cpFloat) position.x, cast(cpFloat) position.y));
+    }
 }
