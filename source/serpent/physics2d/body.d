@@ -51,6 +51,7 @@ package:
     this(float mass, float moment)
     {
         cpBodyInit(&_body, cast(cpFloat) mass, cast(cpFloat) moment);
+        _body.userData = cast(void*) this;
     }
 
     /**

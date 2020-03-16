@@ -71,6 +71,11 @@ package:
         cpShapeSetBody(chipShape, bd.chipBody);
     }
 
+    pragma(inline, true) final @property Body body() @trusted
+    {
+        return cast(Body)(cpShapeGetBody(chipShape).userData);
+    }
+
 public:
 
      ~this()
