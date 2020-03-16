@@ -20,24 +20,42 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d;
-
-/**
- * 2D Physics Support for the Serpent Framework
- */
+module serpent.physics2d.parallelWorld;
 
 public import serpent.physics2d.abstractWorld;
-public import serpent.physics2d.body;
-public import serpent.physics2d.parallelWorld;
-public import serpent.physics2d.processor;
-public import serpent.physics2d.shape;
-public import serpent.physics2d.world;
+public import gfm.math;
 
-/* Explicit body types */
-public import serpent.physics2d.dynamicBody;
-public import serpent.physics2d.kinematicBody;
-public import serpent.physics2d.staticBody;
+import chipmunk;
+import serpent.core.view;
 
-public import serpent.physics2d.boxShape;
-public import serpent.physics2d.circleShape;
-public import serpent.physics2d.polyShape;
+/**
+ * Multi-threaded World implementation
+ */
+final class ParallelWorld : AbstractWorld
+{
+
+public:
+
+    /**
+     * Construct a new ParallelWorld.
+     */
+    this()
+    {
+        space = cpHastySpaceNew();
+        space.userData = cast(void*) this;
+    }
+
+    ~this()
+    {
+        cpHastySpaceFree(space);
+        space = null;
+    }
+
+    /**
+     * Step through execution of the world
+     */
+    final override void step(View!ReadWrite view, float frameTime) @trusted
+    {
+        cpHastySpaceStep(space, cast(cpFloat) frameTime);
+    }
+}
