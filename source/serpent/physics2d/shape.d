@@ -24,6 +24,8 @@ module serpent.physics2d.shape;
 
 import chipmunk;
 
+public import serpent.physics2d.body : Body;
+
 /**
  * Base type for all shapes within serpent.physics2d.
  */
@@ -58,6 +60,15 @@ package:
     pragma(inline, true) pure final @property cpShape* chipShape() @safe @nogc nothrow
     {
         return _shapePtr;
+    }
+
+    /**
+     * Set the body property
+     */
+    pragma(inline, true) final @property void body(Body bd) @trusted
+    {
+        assert(bd !is null, "Cannot set the body to a null body");
+        cpShapeSetBody(chipShape, bd.chipBody);
     }
 
 public:

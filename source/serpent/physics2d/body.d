@@ -22,11 +22,7 @@
 
 module serpent.physics2d.body;
 
-/**
- * 2D Physics Support for the Serpent Framework
- */
-
-public import serpent.physics2d.world;
+public import serpent.physics2d.shape;
 public import gfm.math;
 
 import chipmunk;
@@ -49,8 +45,6 @@ package:
         return &_body;
     }
 
-public:
-
     /**
      * Create a Body with the given mass and moment
      */
@@ -71,4 +65,16 @@ public:
     {
         cpBodyDestroy(&_body);
     }
+
+public:
+
+    /**
+     * Add the Shape to this Body
+     */
+    final void addShape(Shape shape) @trusted
+    {
+        assert(shape !is null, "Cannot add null shape to Body");
+        shape.body = this;
+    }
+
 }
