@@ -24,6 +24,7 @@ module serpent.physics2d.shape;
 
 import chipmunk;
 
+public import gfm.math;
 public import serpent.physics2d.body : Body;
 
 /**
@@ -116,5 +117,24 @@ public:
     {
         assert(f >= 0.0f && f <= 1.0f, "Friction coefficient not within 0.0f and 1.0f");
         cpShapeSetFriction(chipShape, cast(cpFloat) f);
+    }
+
+    /**
+     * Return the surface velocity of the shape
+     */
+    pragma(inline, true) final @property vec2f surfaceVelocity() @trusted
+    {
+        auto cpSurfaceVelocity = cpShapeGetSurfaceVelocity(chipShape);
+        return vec2f(cast(float) cpSurfaceVelocity.x, cast(float) cpSurfaceVelocity.y);
+    }
+
+    /**
+     * Set the surface velocity of the shape
+     */
+    pragma(inline, true) final @property void surfaceVelocity(vec2f v) @trusted
+    {
+        assert(v.x >= 0.0f && v.x <= 1.0f, "Surface velocity X not within 0.0f and 1.0f");
+        assert(v.y >= 0.0f && v.y <= 1.0f, "Surface velocity Y not within 0.0f and 1.0f");
+        cpShapeSetSurfaceVelocity(chipShape, cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y));
     }
 }
