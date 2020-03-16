@@ -20,18 +20,20 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d;
+module serpent.physics2d.shape;
+
+import chipmunk;
 
 /**
- * 2D Physics Support for the Serpent Framework
+ * Base type for all shapes within serpent.physics2d.
  */
+abstract class Shape
+{
 
-public import serpent.physics2d.body;
-public import serpent.physics2d.processor;
-public import serpent.physics2d.shape;
-public import serpent.physics2d.world;
+package:
 
-/* Explicit body types */
-public import serpent.physics2d.dynamicBody;
-public import serpent.physics2d.kinematicBody;
-public import serpent.physics2d.staticBody;
+    /**
+     * Return the underlying chipmunk shape as a usable, typed pointer
+     */
+    pure cpShape* chipShape() @safe @nogc nothrow;
+}
