@@ -232,4 +232,20 @@ public:
     {
         cpBodySetAngularVelocity(chipBody, cast(cpFloat) v);
     }
+
+    /**
+     * Return the angle property for this body
+     */
+    final @property float angle() @trusted
+    {
+        return cast(float) cpBodyGetAngle(chipBody);
+    }
+
+    /**
+     * Set the angle property for this body
+     */
+    final @property void angle(float a) @trusted
+    {
+        cpBodySetAngle(chipBody, cast(cpFloat) a);
+    }
 }
