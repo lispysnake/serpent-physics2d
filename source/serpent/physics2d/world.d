@@ -20,10 +20,57 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d;
+module serpent.physics2d.world;
 
 /**
  * 2D Physics Support for the Serpent Framework
  */
 
 public import serpent.physics2d.world;
+public import gfm.math;
+
+import chipmunk;
+
+/**
+ * A World is simply a space for the physics simulation to run.
+ */
+final class World
+{
+
+private:
+
+    __gshared cpSpace* space = null;
+
+public:
+
+    /**
+     * Construct a new World.
+     */
+    this()
+    {
+        space = cpSpaceNew();
+    }
+
+    ~this()
+    {
+        cpSpaceFree(space);
+        space = null;
+    }
+
+    /**
+     * Set the gravity property for the simulation
+     */
+    final @property void gravity(vec2f gravity) @trusted
+    {
+        cpSpaceSetGravity(space, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
+    }
+
+    /**
+     * Return the gravity property for the simulation
+     */
+    final @property vec2f gravity() @trusted
+    {
+        auto gravity = cpSpaceGetGravity(space);
+        return vec2f(cast(float) gravity.x, cast(float) gravity.y);
+    }
+}
