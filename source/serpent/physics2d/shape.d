@@ -25,6 +25,7 @@ module serpent.physics2d.shape;
 import chipmunk;
 
 public import gfm.math;
+public import serpent.physics2d.abstractWorld : AbstractWorld;
 public import serpent.physics2d.body : Body;
 
 /**
@@ -85,6 +86,16 @@ package:
         return cast(Body) bod.userData;
     }
 
+    pragma(inline, true) final @property AbstractWorld world() @trusted
+    {
+        auto wod = cpShapeGetSpace(chipShape);
+        if (wod is null)
+        {
+            return null;
+        }
+        return cast(AbstractWorld) wod.userData;
+    }
+
 public:
 
      ~this()
@@ -93,6 +104,11 @@ public:
         if (bod !is null)
         {
             bod.remove(this);
+        }
+        auto world = world();
+        if (world !is null)
+        {
+            world.remove(this);
         }
         cpShapeDestroy(chipShape);
         chipShape = null;

@@ -35,6 +35,41 @@ import serpent.core.entity : EntityID;
  */
 class Body
 {
+
+private:
+
+    /**
+     * Add all existing shapes to the world simulation
+     */
+    extern (C) static final void addShapes(cpBody* parentBody, cpShape* _shape, void* userdata)
+    {
+        assert(_shape.userData !is null, "Cannot have shape without userData");
+        Shape shape = cast(Shape) _shape.userData;
+        AbstractWorld world = cast(AbstractWorld) userdata;
+        world.add(shape);
+    }
+
+    /**
+     * Remove all existing shapes from the world simulation
+     */
+    extern (C) static final void removeShapes(cpBody* parentBody, cpShape* _shape, void* userdata)
+    {
+        assert(_shape.userData !is null, "Cannot have shape without userData");
+        Shape shape = cast(Shape) _shape.userData;
+        AbstractWorld world = cast(AbstractWorld) userdata;
+        world.remove(shape);
+    }
+
+    /**
+     * Kill all shapes when destroying the body
+     */
+    extern (C) static final void killShapes(cpBody* parentBody, cpShape* _shape, void* userdata)
+    {
+        assert(_shape.userData !is null, "Cannot have shape without userData");
+        Shape shape = cast(Shape) _shape.userData;
+        shape.destroy();
+    }
+
 package:
 
     cpBody _body;
@@ -88,7 +123,29 @@ package:
         {
             world.remove(this);
         }
+
+        cpBodyEachShape(chipBody, &killShapes, null);
         cpBodyDestroy(&_body);
+    }
+
+    /**
+     * Getting added/removed from a world
+     */
+    final @property void world(AbstractWorld newWorld) @trusted
+    {
+        auto oldWorld = this.world();
+
+        /* Remove shapes from old world */
+        if (oldWorld !is null)
+        {
+            cpBodyEachShape(chipBody, &removeShapes, cast(void*) oldWorld);
+        }
+
+        /* Add shapes to new world */
+        if (newWorld !is null)
+        {
+            cpBodyEachShape(chipBody, &addShapes, cast(void*) newWorld);
+        }
     }
 
 public:

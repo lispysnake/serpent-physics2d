@@ -102,8 +102,7 @@ package:
     {
         assert(_body !is null, "Cannot add null body");
         cpSpaceAddBody(chipSpace, _body.chipBody());
-
-        /* TODO: Figure out how to add all shapes.. ?*/
+        _body.world = this;
     }
 
     /**
@@ -113,6 +112,7 @@ package:
     {
         assert(_body !is null, "Cannot remove null body");
         cpSpaceRemoveBody(chipSpace, _body.chipBody);
+        _body.world = null;
     }
 
     /**
@@ -140,6 +140,15 @@ package:
     {
         assert(_body !is null, "Cannot check contains for null body");
         return cpSpaceContainsBody(chipSpace, _body.chipBody) == cpTrue ? true : false;
+    }
+
+    /**
+     * Return true if we own this shape
+     */
+    final bool contains(Shape shape) @trusted
+    {
+        assert(shape !is null, "Cannot check contains for null shape");
+        return cpSpaceContainsShape(chipSpace, shape.chipShape) == cpTrue ? true : false;
     }
 
 public:
