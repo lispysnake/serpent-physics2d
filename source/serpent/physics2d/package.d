@@ -28,6 +28,7 @@ module serpent.physics2d;
 
 public import serpent.physics2d.abstractWorld;
 public import serpent.physics2d.body;
+public import serpent.physics2d.component;
 public import serpent.physics2d.parallelWorld;
 public import serpent.physics2d.processor;
 public import serpent.physics2d.shape;

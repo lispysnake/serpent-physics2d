@@ -20,50 +20,33 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d.processor;
+module serpent.physics2d.component;
 
-import serpent;
-import serpent.physics2d.abstractWorld;
-import serpent.physics2d.component;
-import serpent.physics2d.world;
+public import serpent.physics2d.body : Body;
+public import serpent.core.component;
 
 /**
- * Our Processor is responsible for managing the world and stepping through
- * execution.
+ * Ensrre that a cpBody is correctly removed from the space and that
+ * resources are returned to the OS
  */
-final class Physics2DProcessor : Processor!ReadWrite
+final static void freeComponent(void* v)
 {
-
-private:
-
-    AbstractWorld _world = null;
-
-public:
-
-    this()
+    Physics2DComponent* comp = cast(Physics2DComponent*) v;
+    if (comp.body is null)
     {
-        _world = new World();
+        return;
     }
 
-    final override void bootstrap(View!ReadWrite view)
-    {
-        context.entity.tryRegisterComponent!Physics2DComponent;
-    }
+    comp.body.destroy();
+    comp.body = null;
+}
 
-    /**
-     * Update for the current frame step
-     */
-    final override void run(View!ReadWrite view)
-    {
-        /* TODO: Add frame step accumulator */
-        _world.step(view, context.frameTime);
-    }
-
-    /**
-     * Return the world instance
-     */
-    pure final @property ref AbstractWorld world() @safe @nogc nothrow
-    {
-        return _world;
-    }
+/**
+ * Add a Physics2D Component to your entity to imbue it with physics
+ * properties. Note you should a body can only be attached to a single
+ * entity, and a component must contain a valid body.
+ */
+final @serpentComponent struct Physics2DComponent
+{
+    Body body;
 }
