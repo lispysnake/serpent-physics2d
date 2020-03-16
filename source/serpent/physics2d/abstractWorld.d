@@ -78,7 +78,7 @@ public:
      * It is not enough for an entity to have a body component, it must
      * explicitly be registered with the simulation.
      */
-    final void addBody(Body _body) @trusted
+    final void add(Body _body) @trusted
     {
         assert(_body !is null, "Cannot add null body");
         cpSpaceAddBody(space, _body.chipBody());
@@ -89,7 +89,7 @@ public:
     /**
      * Remove a body from the world simulation
      */
-    final void removeBody(Body _body) @trusted
+    final void remove(Body _body) @trusted
     {
         assert(_body !is null, "Cannot remove null body");
         cpSpaceRemoveBody(space, _body.chipBody());
