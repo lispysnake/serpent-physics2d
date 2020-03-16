@@ -66,6 +66,8 @@ public:
             {
                 continue;
             }
+            /* Link this body to the entity now */
+            physics.body.entity = entity.id;
             _world.add(physics.body);
         }
     }
