@@ -216,4 +216,20 @@ public:
     {
         cpBodySetPosition(chipBody, cpVect(cast(cpFloat) position.x, cast(cpFloat) position.y));
     }
+
+    /**
+     * Return the angular velocity for this body
+     */
+    final @property float angularVelocity() @trusted
+    {
+        return cast(float) cpBodyGetAngularVelocity(chipBody);
+    }
+
+    /*
+     * Set the angular velocity for this body
+     */
+    final @property void angularVelocity(float v) @trusted
+    {
+        cpBodySetAngularVelocity(chipBody, cast(cpFloat) v);
+    }
 }
