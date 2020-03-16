@@ -30,10 +30,24 @@ import chipmunk;
 abstract class Shape
 {
 
+private:
+
+    cpShape* _shapePtr = null;
+
 package:
 
-    /**
-     * Return the underlying chipmunk shape as a usable, typed pointer
-     */
-    pure cpShape* chipShape() @safe @nogc nothrow;
+    this(cpShape* shapePtr)
+    {
+        chipShape = shapePtr;
+    }
+
+    pragma(inline, true) pure final @property void chipShape(cpShape* shapePtr) @safe @nogc nothrow
+    {
+        _shapePtr = shapePtr;
+    }
+
+    pragma(inline, true) pure final @property cpShape* chipShape() @safe @nogc nothrow
+    {
+        return _shapePtr;
+    }
 }
