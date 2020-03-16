@@ -83,4 +83,21 @@ public:
         cpShapeDestroy(chipShape);
         chipShape = null;
     }
+
+    /**
+     * Return the elasticity (bounciness) of the shape
+     */
+    pragma(inline, true) final @property float elasticity() @trusted
+    {
+        return cast(float) cpShapeGetElasticity(chipShape);
+    }
+
+    /**
+     * Set the elasticity (or bounciness) of the shape
+     */
+    pragma(inline, true) final @property void elasticity(float e) @trusted
+    {
+        assert(e >= 0.0f && e <= 1.0f, "Elasticity not within 0.0f and 1.0f");
+        cpShapeSetElasticity(chipShape, cast(cpFloat) e);
+    }
 }
