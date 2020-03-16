@@ -90,6 +90,15 @@ public:
         /* TODO: Figure out how to add all shapes.. ?*/
     }
 
+    /**
+     * Remove a body from the world simulation
+     */
+    final void removeBody(Body _body) @trusted
+    {
+        assert(_body !is null, "Cannot remove null body");
+        cpSpaceRemoveBody(space, _body.chipBody());
+    }
+
 package:
 
     /**
