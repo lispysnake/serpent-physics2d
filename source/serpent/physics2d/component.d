@@ -31,7 +31,7 @@ public import serpent.core.component;
  */
 final static void freeComponent(void* v)
 {
-    Physics2DComponent* comp = cast(Physics2DComponent*) v;
+    PhysicsComponent* comp = cast(PhysicsComponent*) v;
     if (comp.body is null)
     {
         return;
@@ -46,7 +46,7 @@ final static void freeComponent(void* v)
  * properties. Note you should a body can only be attached to a single
  * entity, and a component must contain a valid body.
  */
-final @serpentComponent struct Physics2DComponent
+final @serpentComponent struct PhysicsComponent
 {
     Body body;
 }

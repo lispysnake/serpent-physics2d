@@ -31,7 +31,7 @@ import serpent.physics2d.world;
  * Our Processor is responsible for managing the world and stepping through
  * execution.
  */
-final class Physics2DProcessor : Processor!ReadWrite
+final class PhysicsProcessor : Processor!ReadWrite
 {
 
 private:
@@ -47,7 +47,7 @@ public:
 
     final override void bootstrap(View!ReadWrite view)
     {
-        context.entity.tryRegisterComponent!Physics2DComponent;
+        context.entity.tryRegisterComponent!PhysicsComponent;
     }
 
     /**
