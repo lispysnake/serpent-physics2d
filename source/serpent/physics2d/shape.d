@@ -164,4 +164,36 @@ public:
     {
         cpShapeSetSensor(chipShape, b ? cpTrue : cpFalse);
     }
+
+    /**
+     * Get the mass for this shape
+     */
+    pragma(inline, true) final @property float mass() @trusted
+    {
+        return cast(float) cpShapeGetMass(chipShape);
+    }
+
+    /**
+     * Set the mass for this shape
+     */
+    pragma(inline, true) final @property void mass(float f) @trusted
+    {
+        cpShapeSetMass(chipShape, cast(cpFloat) f);
+    }
+
+    /**
+     * Get the density for this shape
+     */
+    pragma(inline, true) final @property float density() @trusted
+    {
+        return cast(float) cpShapeGetDensity(chipShape);
+    }
+
+    /**
+     * Set the density for this shape
+     */
+    pragma(inline, true) final @property void density(float f) @trusted
+    {
+        cpShapeSetDensity(chipShape, cast(cpFloat) f);
+    }
 }
