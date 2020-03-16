@@ -1,0 +1,22 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/serpent-physics2d
+serpent-physics2d.so
+serpent-physics2d.dylib
+serpent-physics2d.dll
+serpent-physics2d.a
+serpent-physics2d.lib
+serpent-physics2d-test-*
+*.exe
+*.o
+*.obj
+*.lst
+dub.selections.json
+
+# Linux specific
+libserpent-physics2d.a
+
+# Caused by autoformat
+*.d.orig
