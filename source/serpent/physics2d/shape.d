@@ -147,4 +147,21 @@ public:
         return rectanglef(cast(float) cpBoundingBox.l, cast(float) cpBoundingBox.t,
                 cast(float) cpBoundingBox.r, cast(float) cpBoundingBox.b);
     }
+
+    /**
+     * Returns true if this is a sensor. Sensors receive collision callbacks
+     * but do not *cause* collisions
+     */
+    pragma(inline, true) final @property bool sensor() @trusted
+    {
+        return cpShapeGetSensor(chipShape) == cpTrue ? true : false;
+    }
+
+    /**
+     * Change whether this shape is a sensor or not.
+     */
+    pragma(inline, true) final @property void sensor(bool b) @trusted
+    {
+        cpShapeSetSensor(chipShape, b ? cpTrue : cpFalse);
+    }
 }
