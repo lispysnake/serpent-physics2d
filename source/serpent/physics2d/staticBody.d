@@ -20,7 +20,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d.body.staticBody;
+module serpent.physics2d.staticBody;
 
 public import serpent.physics2d.body : Body;
 

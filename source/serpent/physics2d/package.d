@@ -29,3 +29,8 @@ module serpent.physics2d;
 public import serpent.physics2d.body;
 public import serpent.physics2d.processor;
 public import serpent.physics2d.world;
+
+/* Explicit body types */
+public import serpent.physics2d.dynamicBody;
+public import serpent.physics2d.kinematicBody;
+public import serpent.physics2d.staticBody;

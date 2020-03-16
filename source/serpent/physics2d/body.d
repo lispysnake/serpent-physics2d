@@ -20,28 +20,55 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d.body.kinematicBody;
+module serpent.physics2d.body;
 
-public import serpent.physics2d.body : Body;
+/**
+ * 2D Physics Support for the Serpent Framework
+ */
+
+public import serpent.physics2d.world;
+public import gfm.math;
 
 import chipmunk;
 
 /**
- * A Kinematic body is one that is controlled explicitly by code, but
- * may cause reactions in other bodies. It does not itself react to
- * forces or impulses.
+ * A Rigid Body is a composition of shapes that are used to provide physics
+ * support in the simulation
  */
-final class KinematicBody : Body
+class Body
 {
+package:
 
-public:
+    cpBody _body;
 
     /**
-     * Construct a new KinematicBody
+     * Create a Body with the given mass and moment
+     */
+    this(float mass, float moment)
+    {
+        cpBodyInit(&_body, cast(cpFloat) mass, cast(cpFloat) moment);
+    }
+
+    /**
+     * Create a Body with automatic mass and moment
      */
     this()
     {
-        super();
-        cpBodySetType(&_body, cpBodyType.CP_BODY_TYPE_KINEMATIC);
+        this(0.0f, 0.0f);
+    }
+
+    ~this()
+    {
+        cpBodyDestroy(&_body);
+    }
+
+    /**
+     * Return pointer to the underlying chipmunk body.
+     *
+     * TODO: Make not public.
+     */
+    pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
+    {
+        return &_body;
     }
 }
