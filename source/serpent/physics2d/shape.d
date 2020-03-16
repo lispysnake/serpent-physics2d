@@ -100,4 +100,21 @@ public:
         assert(e >= 0.0f && e <= 1.0f, "Elasticity not within 0.0f and 1.0f");
         cpShapeSetElasticity(chipShape, cast(cpFloat) e);
     }
+
+    /**
+     * Return the friction coefficient of the shape
+     */
+    pragma(inline, true) final @property float friction() @trusted
+    {
+        return cast(float) cpShapeGetFriction(chipShape);
+    }
+
+    /**
+     * Set the friction coefficient of the shape
+     */
+    pragma(inline, true) final @property void friction(float f) @trusted
+    {
+        assert(f >= 0.0f && f <= 1.0f, "Friction coefficient not within 0.0f and 1.0f");
+        cpShapeSetFriction(chipShape, cast(cpFloat) f);
+    }
 }
