@@ -58,4 +58,20 @@ public:
     {
         cpHastySpaceStep(space, cast(cpFloat) frameTime);
     }
+
+    /**
+     * Return the number of threads used in the space
+     */
+    final @property ulong threads() @trusted
+    {
+        return cpHastySpaceGetThreads(space);
+    }
+
+    /**
+     * Set the number of threads in the space
+     */
+    final @property void threads(ulong t) @trusted
+    {
+        cpHastySpaceSetThreads(space, t);
+    }
 }
