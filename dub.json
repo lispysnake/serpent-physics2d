@@ -8,6 +8,7 @@
 			"path": "external/chipmunkd",
 		},
 		"gfm": "~master",
+		"serpent": "~master",
 	},
 	"description": "Serpent 2D Physics Support",
 	"libs": [
