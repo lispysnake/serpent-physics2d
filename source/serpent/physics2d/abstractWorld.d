@@ -66,7 +66,10 @@ private:
         auto transform = view.data!TransformComponent(bd.entity);
 
         /* Sync the position */
-        transform.position = vec3f(bd.position, transform.position.z);
+        import std.stdio;
+
+        transform.position = vec3f(bd.position.x, bd.position.y, transform.position.z);
+        writeln(transform.position);
     }
 
 package:

@@ -57,7 +57,10 @@ private:
         assert(_shape.userData !is null, "Cannot have shape without userData");
         Shape shape = cast(Shape) _shape.userData;
         AbstractWorld world = cast(AbstractWorld) userdata;
-        world.remove(shape);
+        if (world.contains(shape))
+        {
+            world.remove(shape);
+        }
     }
 
     /**

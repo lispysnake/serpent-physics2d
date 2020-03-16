@@ -106,7 +106,7 @@ public:
             bod.remove(this);
         }
         auto world = world();
-        if (world !is null)
+        if (world !is null && world.contains(this))
         {
             world.remove(this);
         }

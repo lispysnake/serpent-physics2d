@@ -40,7 +40,7 @@ public:
      */
     this()
     {
-        super();
+        super(0.0f, 0.0f);
         cpBodySetType(&_body, cpBodyType.CP_BODY_TYPE_STATIC);
     }
 }
