@@ -47,4 +47,21 @@ public:
                 cpVect(cast(cpFloat) offset.x, cast(cpFloat) offset.y));
         super(cast(cpShape*)&_shape);
     }
+
+    /**
+     * Return the circle shape's radius property
+     */
+    pragma(inline, true) final @property float radius() @trusted
+    {
+        return cast(float) cpCircleShapeGetRadius(chipShape);
+    }
+
+    /**
+     * Return the circle's offset property
+     */
+    pragma(inline, true) final @property vec2f offset() @trusted
+    {
+        auto cpOffset = cpCircleShapeGetOffset(chipShape);
+        return vec2f(cast(float) cpOffset.x, cast(float) cpOffset.y);
+    }
 }
