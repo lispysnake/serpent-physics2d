@@ -26,22 +26,18 @@ module serpent.physics2d.world;
  * 2D Physics Support for the Serpent Framework
  */
 
+public import serpent.physics2d.abstractWorld;
 public import serpent.physics2d.body;
-public import serpent.physics2d.world;
 public import gfm.math;
 
 import chipmunk;
-import serpent;
+import serpent.core.view;
 
 /**
- * A World is simply a space for the physics simulation to run.
+ * The default World implementation is single-threaded in nature
  */
-final class World
+final class World : AbstractWorld
 {
-
-private:
-
-    __gshared cpSpace* space = null;
 
 public:
 
@@ -61,51 +57,9 @@ public:
     }
 
     /**
-     * Set the gravity property for the simulation
-     */
-    final @property void gravity(vec2f gravity) @trusted
-    {
-        cpSpaceSetGravity(space, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
-    }
-
-    /**
-     * Return the gravity property for the simulation
-     */
-    final @property vec2f gravity() @trusted
-    {
-        auto gravity = cpSpaceGetGravity(space);
-        return vec2f(cast(float) gravity.x, cast(float) gravity.y);
-    }
-
-    /**
-     * Add body to the world simulation
-     *
-     * It is not enough for an entity to have a body component, it must
-     * explicitly be registered with the simulation.
-     */
-    final void addBody(Body _body) @trusted
-    {
-        assert(_body !is null, "Cannot add null body");
-        cpSpaceAddBody(space, _body.chipBody());
-
-        /* TODO: Figure out how to add all shapes.. ?*/
-    }
-
-    /**
-     * Remove a body from the world simulation
-     */
-    final void removeBody(Body _body) @trusted
-    {
-        assert(_body !is null, "Cannot remove null body");
-        cpSpaceRemoveBody(space, _body.chipBody());
-    }
-
-package:
-
-    /**
      * Step through execution of the world
      */
-    final void step(View!ReadWrite view, float frameTime)
+    final override void step(View!ReadWrite view, float frameTime) @trusted
     {
         cpSpaceStep(space, cast(cpFloat) frameTime);
     }

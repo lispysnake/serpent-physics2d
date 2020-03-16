@@ -26,6 +26,7 @@ module serpent.physics2d;
  * 2D Physics Support for the Serpent Framework
  */
 
+public import serpent.physics2d.abstractWorld;
 public import serpent.physics2d.body;
 public import serpent.physics2d.processor;
 public import serpent.physics2d.shape;

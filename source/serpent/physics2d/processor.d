@@ -23,6 +23,7 @@
 module serpent.physics2d.processor;
 
 import serpent;
+import serpent.physics2d.abstractWorld;
 import serpent.physics2d.world;
 
 /**
@@ -34,7 +35,7 @@ final class Physics2DProcessor : Processor!ReadWrite
 
 private:
 
-    World _world = null;
+    AbstractWorld _world = null;
 
 public:
 
@@ -55,7 +56,7 @@ public:
     /**
      * Return the world instance
      */
-    pure final @property ref World world() @safe @nogc nothrow
+    pure final @property ref AbstractWorld world() @safe @nogc nothrow
     {
         return _world;
     }
