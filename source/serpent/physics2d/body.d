@@ -42,6 +42,16 @@ package:
     cpBody _body;
 
     /**
+     * Return pointer to the underlying chipmunk body.
+     */
+    pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
+    {
+        return &_body;
+    }
+
+public:
+
+    /**
      * Create a Body with the given mass and moment
      */
     this(float mass, float moment)
@@ -60,13 +70,5 @@ package:
     ~this()
     {
         cpBodyDestroy(&_body);
-    }
-
-    /**
-     * Return pointer to the underlying chipmunk body.
-     */
-    pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
-    {
-        return &_body;
     }
 }
