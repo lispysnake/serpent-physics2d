@@ -20,7 +20,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d.polyShape;
+module serpent.physics2d.boxShape;
 
 import chipmunk;
 
@@ -28,31 +28,32 @@ public import gfm.math;
 public import serpent.physics2d.shape : Shape;
 
 /**
- * Implements a polygon shape (i.e. more than one point)
+ * Implements a Box Shape. Highly useful, much recommended.
  */
-final class PolyShape : Shape
+final class BoxShape : Shape
 {
-package:
+private:
 
     cpPolyShape _shape;
 
 public:
 
     /**
-     * Construct a new PolyShape with the given vertices and radius
+     * Construct a new BoxShape with the given width, height and radius
      */
-    this(ref vec2f[] vertices, float radius)
+    this(float width, float height, float radius = 0.0f)
     {
-        /* This is kinda nasty, wish we could avoid the alloc. */
-        cpVect[] cpVertices = new cpVect[vertices.length];
-        foreach (idx, ref v; vertices)
-        {
-            cpVertices[idx] = cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y);
-        }
-        auto transform = cpTransformIdentity;
-        cpPolyShapeInit(&_shape, null, cast(int) vertices.length,
-                cast(const(cpVect*)) cpVertices.ptr, transform, cast(cpFloat) radius);
+        this(rectanglef(0.0f, 0.0f, width, height), radius);
+    }
 
+    /**
+     * Construct a new BoxShape from the given box and radius
+     */
+    this(box2f box, float radius = 0.0f)
+    {
+        auto cpBoxed = cpBBNew(cast(cpFloat) box.min.x, cast(cpFloat) box.min.y,
+                cast(cpFloat) box.max.x, cast(cpFloat) box.max.y);
+        cpBoxShapeInit2(&_shape, null, cpBoxed, cast(cpFloat) radius);
         super(cast(cpShape*)&_shape);
     }
 

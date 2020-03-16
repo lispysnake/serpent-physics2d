@@ -36,5 +36,6 @@ public import serpent.physics2d.dynamicBody;
 public import serpent.physics2d.kinematicBody;
 public import serpent.physics2d.staticBody;
 
+public import serpent.physics2d.boxShape;
 public import serpent.physics2d.circleShape;
 public import serpent.physics2d.polyShape;
