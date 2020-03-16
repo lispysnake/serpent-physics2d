@@ -39,6 +39,25 @@ import serpent.core.view;
 package abstract class AbstractWorld
 {
 
+private:
+
+    /**
+     * For each body in the simulation, if it has a corresponding Body object,
+     * update the linked entity data.
+     */
+    extern (C) static final void updateBody(cpBody* _body, void* userdata)
+    {
+        View!ReadWrite* view = cast(View!ReadWrite*) userdata;
+
+        if (_body.userData is null)
+        {
+            return;
+        }
+
+        Body bd = cast(Body) _body.userData;
+        /* TODO: Process entity update */
+    }
+
 package:
 
     __gshared cpSpace* _space = null;
@@ -51,6 +70,18 @@ package:
     pragma(inline, true) final @property void space(cpSpace* space) @trusted @nogc nothrow
     {
         _space = space;
+    }
+
+    /**
+     * Used by each implementation to update components for every given body
+     * within the space.
+     *
+     * It is quite possible this is inefficient right now.
+     */
+    pragma(inline, true) final void processUpdates(View!ReadWrite view) @trusted
+    {
+        cpSpaceEachBody(_space, &updateBody, cast(void*)&view);
+
     }
 
 public:
