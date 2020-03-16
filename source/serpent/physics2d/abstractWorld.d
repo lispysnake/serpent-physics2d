@@ -31,6 +31,7 @@ public import gfm.math;
 
 import chipmunk;
 import serpent.core.view;
+import serpent.core.transform;
 
 /**
  * Base implementation for our worlds. Worlds must be implemented internally
@@ -60,8 +61,12 @@ private:
             return;
         }
 
+        /* Process the entity update now */
         Body bd = cast(Body) _body.userData;
-        /* TODO: Process entity update */
+        auto transform = view.data!TransformComponent(bd.entity);
+
+        /* Sync the position */
+        transform.position = vec3f(bd.position, transform.position.z);
     }
 
 package:
