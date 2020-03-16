@@ -90,24 +90,7 @@ package:
 
     }
 
-public:
-
-    /**
-     * Set the gravity property for the simulation
-     */
-    final @property void gravity(vec2f gravity) @trusted
-    {
-        cpSpaceSetGravity(space, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
-    }
-
-    /**
-     * Return the gravity property for the simulation
-     */
-    final @property vec2f gravity() @trusted
-    {
-        auto gravity = cpSpaceGetGravity(space);
-        return vec2f(cast(float) gravity.x, cast(float) gravity.y);
-    }
+package:
 
     /**
      * Add body to the world simulation
@@ -130,6 +113,25 @@ public:
     {
         assert(_body !is null, "Cannot remove null body");
         cpSpaceRemoveBody(space, _body.chipBody());
+    }
+
+public:
+
+    /**
+     * Set the gravity property for the simulation
+     */
+    final @property void gravity(vec2f gravity) @trusted
+    {
+        cpSpaceSetGravity(space, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
+    }
+
+    /**
+     * Return the gravity property for the simulation
+     */
+    final @property vec2f gravity() @trusted
+    {
+        auto gravity = cpSpaceGetGravity(space);
+        return vec2f(cast(float) gravity.x, cast(float) gravity.y);
     }
 
     /**
