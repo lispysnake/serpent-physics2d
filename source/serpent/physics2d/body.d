@@ -268,4 +268,21 @@ public:
     {
         cpBodySetCenterOfGravity(chipBody, cpVect(cast(cpFloat) g.x, cast(cpFloat) g.y));
     }
+
+    /**
+     * Return the velocity for this body
+     */
+    final @property vec2f velocity() @trusted
+    {
+        auto cpVelocity = cpBodyGetVelocity(chipBody);
+        return vec2f(cast(float) cpVelocity.x, cast(float) cpVelocity.y);
+    }
+
+    /**
+     * Set the velocity for this body
+     */
+    final @property void velocity(vec2f v) @trusted
+    {
+        cpBodySetVelocity(chipBody, cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y));
+    }
 }
