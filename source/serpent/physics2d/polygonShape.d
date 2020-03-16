@@ -20,7 +20,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d.polyShape;
+module serpent.physics2d.polygonShape;
 
 import chipmunk;
 
@@ -30,7 +30,7 @@ public import serpent.physics2d.shape : Shape;
 /**
  * Implements a polygon shape (i.e. more than one point)
  */
-final class PolyShape : Shape
+final class PolygonShape : Shape
 {
 package:
 
