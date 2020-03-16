@@ -95,6 +95,14 @@ public:
     {
         assert(shape !is null, "Cannot add null shape to Body");
         shape.body = this;
+
+        /* Add shape to world if we have one */
+        auto world = this.world();
+        if (world is null)
+        {
+            return;
+        }
+        world.add(shape);
     }
 
     /**
@@ -104,5 +112,13 @@ public:
     {
         assert(shape !is null, "Cannot remove shape from body");
         shape.body = null;
+
+        /* Remove shape from world if we have one */
+        auto world = this.world();
+        if (world is null)
+        {
+            return;
+        }
+        world.remove(shape);
     }
 }

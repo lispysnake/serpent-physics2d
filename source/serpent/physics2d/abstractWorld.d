@@ -112,7 +112,25 @@ package:
     final void remove(Body _body) @trusted
     {
         assert(_body !is null, "Cannot remove null body");
-        cpSpaceRemoveBody(space, _body.chipBody());
+        cpSpaceRemoveBody(space, _body.chipBody);
+    }
+
+    /**
+     * Add a shape to the world simulation
+     */
+    final void add(Shape shape) @trusted
+    {
+        assert(shape !is null, "Cannot add null shape");
+        cpSpaceAddShape(space, shape.chipShape);
+    }
+
+    /**
+     * Remove a shape from the world simulation
+     */
+    final void remove(Shape shape) @trusted
+    {
+        assert(shape !is null, "Cannot remove null shape");
+        cpSpaceRemoveShape(space, shape.chipShape);
     }
 
     /**
