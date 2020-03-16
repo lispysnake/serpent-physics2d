@@ -51,6 +51,7 @@ public:
     this()
     {
         space = cpSpaceNew();
+        space.userData = cast(void*) this;
     }
 
     ~this()
