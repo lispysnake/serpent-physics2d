@@ -36,16 +36,25 @@ private:
 
 package:
 
+    /**
+     * Initialise this shape with the shapePtr property
+     */
     this(cpShape* shapePtr)
     {
         chipShape = shapePtr;
     }
 
+    /**
+     * Set the pointer to the underlying chipmunk shape
+     */
     pragma(inline, true) pure final @property void chipShape(cpShape* shapePtr) @safe @nogc nothrow
     {
         _shapePtr = shapePtr;
     }
 
+    /**
+     * Retrieve the pointer to the underlying chipmunk shape
+     */
     pragma(inline, true) pure final @property cpShape* chipShape() @safe @nogc nothrow
     {
         return _shapePtr;
