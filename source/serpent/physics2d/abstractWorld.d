@@ -54,6 +54,12 @@ private:
             return;
         }
 
+        /* Only update dynamic/kinematic bodies */
+        if (cpBodyGetType(_body) == cpBodyType.CP_BODY_TYPE_STATIC)
+        {
+            return;
+        }
+
         Body bd = cast(Body) _body.userData;
         /* TODO: Process entity update */
     }
