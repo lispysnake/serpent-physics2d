@@ -27,6 +27,7 @@ public import serpent.physics2d.shape;
 public import gfm.math;
 
 import chipmunk;
+import serpent.core.entity : EntityID;
 
 /**
  * A Rigid Body is a composition of shapes that are used to provide physics
@@ -37,6 +38,7 @@ class Body
 package:
 
     cpBody _body;
+    EntityID _entity;
 
     /**
      * Return pointer to the underlying chipmunk body.
@@ -44,6 +46,22 @@ package:
     pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
     {
         return &_body;
+    }
+
+    /**
+     * Return the internal entity ID for the Body
+     */
+    pragma(inline, true) pure final EntityID entity() @safe @nogc nothrow
+    {
+        return _entity;
+    }
+
+    /**
+     * Set the internal entity ID for the Body
+     */
+    pragma(inline, true) pure final void entity(EntityID id) @safe @nogc nothrow
+    {
+        _entity = id;
     }
 
     /**
