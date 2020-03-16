@@ -50,4 +50,12 @@ package:
     {
         return _shapePtr;
     }
+
+public:
+
+     ~this()
+    {
+        cpShapeDestroy(chipShape);
+        chipShape = null;
+    }
 }

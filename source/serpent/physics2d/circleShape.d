@@ -47,9 +47,4 @@ public:
                 cpVect(cast(cpFloat) offset.x, cast(cpFloat) offset.y));
         super(cast(cpShape*)&_shape);
     }
-
-    ~this()
-    {
-        cpShapeDestroy(chipShape);
-    }
 }
