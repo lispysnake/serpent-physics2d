@@ -26,6 +26,7 @@ module serpent.physics2d.world;
  * 2D Physics Support for the Serpent Framework
  */
 
+public import serpent.physics2d.body;
 public import serpent.physics2d.world;
 public import gfm.math;
 
@@ -73,6 +74,20 @@ public:
     {
         auto gravity = cpSpaceGetGravity(space);
         return vec2f(cast(float) gravity.x, cast(float) gravity.y);
+    }
+
+    /**
+     * Add body to the world simulation
+     *
+     * It is not enough for an entity to have a body component, it must
+     * explicitly be registered with the simulation.
+     */
+    final void addBody(Body _body) @trusted
+    {
+        assert(_body !is null, "Cannot add null body");
+        cpSpaceAddBody(space, _body.chipBody());
+
+        /* TODO: Figure out how to add all shapes.. ?*/
     }
 
 package:

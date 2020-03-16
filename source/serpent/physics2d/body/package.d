@@ -61,6 +61,18 @@ package:
     {
         cpBodyDestroy(&_body);
     }
+
+public:
+
+    /**
+     * Return pointer to the underlying chipmunk body.
+     *
+     * TODO: Make not public.
+     */
+    pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
+    {
+        return &_body;
+    }
 }
 
 public import serpent.physics2d.body.dynamicBody;
