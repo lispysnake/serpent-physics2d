@@ -64,8 +64,6 @@ package:
 
     /**
      * Return pointer to the underlying chipmunk body.
-     *
-     * TODO: Make not public.
      */
     pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
     {
