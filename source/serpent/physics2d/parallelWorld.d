@@ -41,14 +41,14 @@ public:
      */
     this()
     {
-        space = cpHastySpaceNew();
-        space.userData = cast(void*) this;
+        chipSpace = cpHastySpaceNew();
+        chipSpace.userData = cast(void*) this;
     }
 
     ~this()
     {
-        cpHastySpaceFree(space);
-        space = null;
+        cpHastySpaceFree(chipSpace);
+        chipSpace = null;
     }
 
     /**
@@ -56,7 +56,7 @@ public:
      */
     final override void step(View!ReadWrite view, float frameTime) @trusted
     {
-        cpHastySpaceStep(space, cast(cpFloat) frameTime);
+        cpHastySpaceStep(chipSpace, cast(cpFloat) frameTime);
         this.processUpdates(view);
     }
 
@@ -65,7 +65,7 @@ public:
      */
     final @property ulong threads() @trusted
     {
-        return cpHastySpaceGetThreads(space);
+        return cpHastySpaceGetThreads(chipSpace);
     }
 
     /**
@@ -73,6 +73,6 @@ public:
      */
     final @property void threads(ulong t) @trusted
     {
-        cpHastySpaceSetThreads(space, t);
+        cpHastySpaceSetThreads(chipSpace, t);
     }
 }

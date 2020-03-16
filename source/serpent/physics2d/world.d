@@ -46,14 +46,14 @@ public:
      */
     this()
     {
-        space = cpSpaceNew();
-        space.userData = cast(void*) this;
+        chipSpace = cpSpaceNew();
+        chipSpace.userData = cast(void*) this;
     }
 
     ~this()
     {
-        cpSpaceFree(space);
-        space = null;
+        cpSpaceFree(chipSpace);
+        chipSpace = null;
     }
 
     /**
@@ -61,7 +61,7 @@ public:
      */
     final override void step(View!ReadWrite view, float frameTime) @trusted
     {
-        cpSpaceStep(space, cast(cpFloat) frameTime);
+        cpSpaceStep(chipSpace, cast(cpFloat) frameTime);
         this.processUpdates(view);
     }
 }

@@ -68,12 +68,12 @@ package:
 
     __gshared cpSpace* _space = null;
 
-    pragma(inline, true) final @property cpSpace* space() @trusted @nogc nothrow
+    pragma(inline, true) final @property cpSpace* chipSpace() @trusted @nogc nothrow
     {
         return _space;
     }
 
-    pragma(inline, true) final @property void space(cpSpace* space) @trusted @nogc nothrow
+    pragma(inline, true) final @property void chipSpace(cpSpace* space) @trusted @nogc nothrow
     {
         _space = space;
     }
@@ -101,7 +101,7 @@ package:
     final void add(Body _body) @trusted
     {
         assert(_body !is null, "Cannot add null body");
-        cpSpaceAddBody(space, _body.chipBody());
+        cpSpaceAddBody(chipSpace, _body.chipBody());
 
         /* TODO: Figure out how to add all shapes.. ?*/
     }
@@ -112,7 +112,7 @@ package:
     final void remove(Body _body) @trusted
     {
         assert(_body !is null, "Cannot remove null body");
-        cpSpaceRemoveBody(space, _body.chipBody);
+        cpSpaceRemoveBody(chipSpace, _body.chipBody);
     }
 
     /**
@@ -121,7 +121,7 @@ package:
     final void add(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot add null shape");
-        cpSpaceAddShape(space, shape.chipShape);
+        cpSpaceAddShape(chipSpace, shape.chipShape);
     }
 
     /**
@@ -130,7 +130,7 @@ package:
     final void remove(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot remove null shape");
-        cpSpaceRemoveShape(space, shape.chipShape);
+        cpSpaceRemoveShape(chipSpace, shape.chipShape);
     }
 
     /**
@@ -139,7 +139,7 @@ package:
     final bool contains(Body _body) @trusted
     {
         assert(_body !is null, "Cannot check contains for null body");
-        return cpSpaceContainsBody(space, _body.chipBody) == cpTrue ? true : false;
+        return cpSpaceContainsBody(chipSpace, _body.chipBody) == cpTrue ? true : false;
     }
 
 public:
@@ -149,7 +149,7 @@ public:
      */
     final @property void gravity(vec2f gravity) @trusted
     {
-        cpSpaceSetGravity(space, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
+        cpSpaceSetGravity(chipSpace, cpVect(cast(cpFloat) gravity.x, cast(cpFloat) gravity.y));
     }
 
     /**
@@ -157,7 +157,7 @@ public:
      */
     final @property vec2f gravity() @trusted
     {
-        auto gravity = cpSpaceGetGravity(space);
+        auto gravity = cpSpaceGetGravity(chipSpace);
         return vec2f(cast(float) gravity.x, cast(float) gravity.y);
     }
 
