@@ -6,7 +6,8 @@
 	"dependencies": {
 		"chipmunkd": {
 			"path": "external/chipmunkd",
-		}
+		},
+		"gfm": "~master",
 	},
 	"description": "Serpent 2D Physics Support",
 	"libs": [
