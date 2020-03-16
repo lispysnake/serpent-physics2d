@@ -30,6 +30,7 @@ public import serpent.physics2d.world;
 public import gfm.math;
 
 import chipmunk;
+import serpent;
 
 /**
  * A World is simply a space for the physics simulation to run.
@@ -72,5 +73,15 @@ public:
     {
         auto gravity = cpSpaceGetGravity(space);
         return vec2f(cast(float) gravity.x, cast(float) gravity.y);
+    }
+
+package:
+
+    /**
+     * Step through execution of the world
+     */
+    final void step(View!ReadWrite view, float frameTime)
+    {
+        cpSpaceStep(space, cast(cpFloat) frameTime);
     }
 }

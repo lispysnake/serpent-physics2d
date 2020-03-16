@@ -20,12 +20,43 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-module serpent.physics2d;
+module serpent.physics2d.processor;
+
+import serpent;
+import serpent.physics2d.world;
 
 /**
- * 2D Physics Support for the Serpent Framework
+ * Our Processor is responsible for managing the world and stepping through
+ * execution.
  */
+final class Physics2DProcessor : Processor!ReadWrite
+{
 
-public import serpent.physics2d.body;
-public import serpent.physics2d.processor;
-public import serpent.physics2d.world;
+private:
+
+    World _world = null;
+
+public:
+
+    this()
+    {
+        _world = new World();
+    }
+
+    /**
+     * Update for the current frame step
+     */
+    final override void run(View!ReadWrite view)
+    {
+        /* TODO: Add frame step accumulator */
+        _world.step(view, context.frameTime);
+    }
+
+    /**
+     * Return the world instance
+     */
+    pure final @property ref World world() @safe @nogc nothrow
+    {
+        return _world;
+    }
+}
