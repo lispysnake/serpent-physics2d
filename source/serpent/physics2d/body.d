@@ -248,4 +248,21 @@ public:
     {
         cpBodySetAngle(chipBody, cast(cpFloat) a);
     }
+
+    /**
+     * Returns the body's center of gravity, in body-local units
+     */
+    final @property vec2f centerOfGravity() @trusted
+    {
+        auto cpCenterOfGravity = cpBodyGetCenterOfGravity(chipBody);
+        return vec2f(cast(float) cpCenterOfGravity.x, cast(float) cpCenterOfGravity.y);
+    }
+
+    /**
+     * Set the body's center of gravity, in body-local units
+     */
+    final @property void centerOfGravity(vec2f g) @trusted
+    {
+        cpBodySetCenterOfGravity(chipBody, cpVect(cast(cpFloat) g.x, cast(cpFloat) g.y));
+    }
 }
