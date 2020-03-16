@@ -65,6 +65,11 @@ package:
 
     ~this()
     {
+        auto world = this.world();
+        if (world !is null)
+        {
+            world.remove(this);
+        }
         cpBodyDestroy(&_body);
     }
 
@@ -86,9 +91,18 @@ public:
     /**
      * Add the Shape to this Body
      */
-    final void addShape(Shape shape) @trusted
+    final void add(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot add null shape to Body");
         shape.body = this;
+    }
+
+    /**
+     * Remove the shape from the body
+     */
+    final void remove(Shape shape) @trusted
+    {
+        assert(shape !is null, "Cannot remove shape from body");
+        shape.body = null;
     }
 }

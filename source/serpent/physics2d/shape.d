@@ -72,15 +72,28 @@ package:
         cpShapeSetBody(chipShape, bd.chipBody);
     }
 
+    /**
+     * Get the Body property
+     */
     pragma(inline, true) final @property Body body() @trusted
     {
-        return cast(Body)(cpShapeGetBody(chipShape).userData);
+        auto bod = cpShapeGetBody(chipShape);
+        if (bod is null)
+        {
+            return null;
+        }
+        return cast(Body) bod.userData;
     }
 
 public:
 
      ~this()
     {
+        auto bod = body();
+        if (bod !is null)
+        {
+            bod.remove(this);
+        }
         cpShapeDestroy(chipShape);
         chipShape = null;
     }
