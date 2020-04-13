@@ -1,0 +1,20 @@
+OK so I tried to be really nice with the whole memory layout thing
+and it turns out integrating a third party library into the D lang
+memory space isn't always as easy as it looks..
+
+So we have two potential paths we can take right now..
+
+1) Factory functions to cast between C and D types, with no 'new' specifier.
+2) Objects become fat pointers.
+
+While 1) seems highly appealing, and one I've been pursuing, it does pose
+too much risk given that the introduction of a single private field in the
+upstream C library, not present in the D binding, will cause memory alignment/access
+problems. Basically, sh** a brick and die.
+
+2) is kinda ugly, but allows an OOPy approach to the problem. Unfortunately
+the whole library underneath is OOPy, so a more idiomatic D wrapper is about
+the only solution that works well everywhere.
+
+So, bound properties, and explicitly using the APIs instead of the private fields
+is the only real choice we have.
