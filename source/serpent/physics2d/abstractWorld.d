@@ -65,11 +65,7 @@ private:
         Body bd = cast(Body) _body.userData;
         auto transform = view.data!TransformComponent(bd.entity);
 
-        /* Sync the position */
-        import std.stdio;
-
         transform.position = vec3f(bd.position.x, bd.position.y, transform.position.z);
-        writeln(transform.position);
     }
 
 package:
