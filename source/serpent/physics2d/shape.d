@@ -110,7 +110,7 @@ public:
         {
             world.remove(this);
         }
-        cpShapeDestroy(chipShape);
+        cpShapeFree(chipShape);
         chipShape = null;
     }
 

@@ -75,7 +75,7 @@ private:
 
 package:
 
-    cpBody _body;
+    cpBody* _body;
     EntityID _entity;
 
     /**
@@ -83,7 +83,15 @@ package:
      */
     pragma(inline, true) pure final cpBody* chipBody() @safe @nogc nothrow
     {
-        return &_body;
+        return _body;
+    }
+
+    /**
+     * Set the chipBody for this instance
+     */
+    pragma(inline, true) pure final void chipBody(cpBody* bodyPtr) @safe @nogc nothrow
+    {
+        _body = bodyPtr;
     }
 
     /**
@@ -105,18 +113,10 @@ package:
     /**
      * Create a Body with the given mass and moment
      */
-    this(float mass, float moment)
+    this(cpBody* chipBody)
     {
-        cpBodyInit(&_body, cast(cpFloat) mass, cast(cpFloat) moment);
+        _body = chipBody;
         _body.userData = cast(void*) this;
-    }
-
-    /**
-     * Create a Body with automatic mass and moment
-     */
-    this()
-    {
-        this(0.0f, 0.0f);
     }
 
     ~this()
@@ -128,7 +128,7 @@ package:
         }
 
         cpBodyEachShape(chipBody, &killShapes, null);
-        cpBodyDestroy(&_body);
+        cpBodyFree(_body);
     }
 
     /**

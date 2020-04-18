@@ -39,8 +39,7 @@ public:
      */
     this(float mass, float moment)
     {
-        super(mass, moment);
-        cpBodySetType(&_body, cpBodyType.CP_BODY_TYPE_DYNAMIC);
+        super(cpBodyNew(mass, moment));
     }
 
     /**
@@ -50,6 +49,5 @@ public:
     this()
     {
         this(0.0f, 0.0f);
-        cpBodySetType(&_body, cpBodyType.CP_BODY_TYPE_DYNAMIC);
     }
 }

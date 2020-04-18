@@ -32,9 +32,6 @@ public import serpent.physics2d.shape : Shape;
  */
 final class PolygonShape : Shape
 {
-package:
-
-    cpPolyShape _shape;
 
 public:
 
@@ -50,10 +47,9 @@ public:
             cpVertices[idx] = cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y);
         }
         auto transform = cpTransformIdentity;
-        cpPolyShapeInit(&_shape, null, cast(int) vertices.length,
-                cast(const(cpVect*)) cpVertices.ptr, transform, cast(cpFloat) radius);
 
-        super(cast(cpShape*)&_shape);
+        super(cpPolyShapeNew(null, cast(int) vertices.length,
+                cast(const(cpVect*)) cpVertices.ptr, transform, cast(cpFloat) radius));
     }
 
     /**

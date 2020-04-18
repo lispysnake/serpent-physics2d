@@ -32,9 +32,6 @@ public import serpent.physics2d.shape : Shape;
  */
 final class CircleShape : Shape
 {
-private:
-
-    cpCircleShape _shape;
 
 public:
 
@@ -43,9 +40,8 @@ public:
      */
     this(float radius, vec2f offset)
     {
-        cpCircleShapeInit(&_shape, null, cast(cpFloat) radius,
-                cpVect(cast(cpFloat) offset.x, cast(cpFloat) offset.y));
-        super(cast(cpShape*)&_shape);
+        super(cpCircleShapeNew(null, cast(cpFloat) radius,
+                cpVect(cast(cpFloat) offset.x, cast(cpFloat) offset.y)));
     }
 
     /**

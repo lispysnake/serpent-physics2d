@@ -32,9 +32,6 @@ public import serpent.physics2d.shape : Shape;
  */
 final class BoxShape : Shape
 {
-private:
-
-    cpPolyShape _shape;
 
 public:
 
@@ -53,8 +50,7 @@ public:
     {
         auto cpBoxed = cpBBNew(cast(cpFloat) box.min.x, cast(cpFloat) box.min.y,
                 cast(cpFloat) box.max.x, cast(cpFloat) box.max.y);
-        cpBoxShapeInit2(&_shape, null, cpBoxed, cast(cpFloat) radius);
-        super(cast(cpShape*)&_shape);
+        super(cpBoxShapeNew2(null, cpBoxed, cast(cpFloat) radius));
     }
 
     /**
