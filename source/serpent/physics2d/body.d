@@ -38,16 +38,7 @@ class Body
 
 private:
 
-    /**
-     * Add all existing shapes to the world simulation
-     */
-    extern (C) static final void addShapes(cpBody* parentBody, cpShape* _shape, void* userdata)
-    {
-        assert(_shape.userData !is null, "Cannot have shape without userData");
-        Shape shape = cast(Shape) _shape.userData;
-        AbstractWorld world = cast(AbstractWorld) userdata;
-        world.add(shape);
-    }
+    Shape[] orphanShapes;
 
     /**
      * Remove all existing shapes from the world simulation
@@ -147,7 +138,11 @@ package:
         /* Add shapes to new world */
         if (newWorld !is null)
         {
-            cpBodyEachShape(chipBody, &addShapes, cast(void*) newWorld);
+            foreach (ref s; orphanShapes)
+            {
+                newWorld.add(s);
+            }
+            orphanShapes = [];
         }
     }
 
@@ -178,6 +173,7 @@ public:
         auto world = this.world();
         if (world is null)
         {
+            orphanShapes ~= shape;
             return;
         }
         world.add(shape);
