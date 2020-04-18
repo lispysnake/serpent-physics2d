@@ -172,7 +172,7 @@ public:
     final void add(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot add null shape to Body");
-        shape.body = this;
+        shape.chipBody = this;
 
         /* Add shape to world if we have one */
         auto world = this.world();
@@ -189,7 +189,7 @@ public:
     final void remove(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot remove shape from body");
-        shape.body = null;
+        shape.chipBody = null;
 
         /* Remove shape from world if we have one */
         auto world = this.world();

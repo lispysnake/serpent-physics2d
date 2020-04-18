@@ -67,7 +67,7 @@ package:
     /**
      * Set the body property
      */
-    pragma(inline, true) final @property void body(Body bd) @trusted
+    pragma(inline, true) final @property void chipBody(Body bd) @trusted
     {
         assert(bd !is null, "Cannot set the body to a null body");
         cpShapeSetBody(chipShape, bd.chipBody);
@@ -76,7 +76,7 @@ package:
     /**
      * Get the Body property
      */
-    pragma(inline, true) final @property Body body() @trusted
+    pragma(inline, true) final @property Body chipBody() @trusted
     {
         auto bod = cpShapeGetBody(chipShape);
         if (bod is null)
@@ -100,7 +100,7 @@ public:
 
      ~this()
     {
-        auto bod = body();
+        auto bod = chipBody();
         if (bod !is null)
         {
             bod.remove(this);
