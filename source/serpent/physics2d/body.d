@@ -39,6 +39,7 @@ class Body
 private:
 
     Shape[] orphanShapes;
+    Shape[] attachedShapes;
 
     /**
      * Remove all existing shapes from the world simulation
@@ -141,6 +142,7 @@ package:
             foreach (ref s; orphanShapes)
             {
                 newWorld.add(s);
+                attachedShapes ~= s;
             }
             orphanShapes = [];
         }
@@ -176,6 +178,7 @@ public:
             orphanShapes ~= shape;
             return;
         }
+        attachedShapes ~= shape;
         world.add(shape);
     }
 
@@ -186,6 +189,11 @@ public:
     {
         assert(shape !is null, "Cannot remove shape from body");
         shape.chipBody = null;
+
+        import std.algorithm.mutation : remove;
+
+        orphanShapes = orphanShapes.remove!((a) => a == shape);
+        attachedShapes = attachedShapes.remove!((a) => a == shape);
 
         /* Remove shape from world if we have one */
         auto world = this.world();
