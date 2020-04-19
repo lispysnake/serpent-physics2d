@@ -68,7 +68,6 @@ public:
             }
             import std.stdio;
 
-            writeln("REGISTERING");
             /* Link this body to the entity now */
             physics.body.entity = entity.id;
             /* Sync the position */
