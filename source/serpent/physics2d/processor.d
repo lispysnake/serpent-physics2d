@@ -38,31 +38,13 @@ private:
 
     AbstractWorld _world = null;
 
-    /* Run physics sim in discrete 60fps steps */
-    const float physicsRate = 1000.0f / 60.0f;
-
-    float timeAccumulated = 0.0f;
-
-    /**
-     * Update the actual physics simulation with a fixed time step
-     */
-    final void updateWorldView(View!ReadWrite view)
-    {
-        _world.step(view, physicsRate);
-    }
-
 public:
 
     this()
     {
-        import serpent.physics2d.parallelWorld;
-
-        _world = new ParallelWorld();
+        _world = new World();
     }
 
-    /**
-     * Register relevant physics components
-     */
     final override void bootstrap(View!ReadWrite view)
     {
         context.entity.tryRegisterComponent!PhysicsComponent;
@@ -73,15 +55,8 @@ public:
      */
     final override void run(View!ReadWrite view)
     {
-        timeAccumulated += context.frameTime;
-
-        uint runCount = cast(uint)(timeAccumulated / physicsRate);
-        timeAccumulated -= (runCount * physicsRate);
-        while (runCount > 0)
-        {
-            updateWorldView(view);
-            --runCount;
-        }
+        /* TODO: Add frame step accumulator */
+        _world.step(view, context.frameTime);
 
         /* Find unregistered physics bodies for f+1 */
         foreach (entity, transform, physics; view.withComponents!(TransformComponent,
