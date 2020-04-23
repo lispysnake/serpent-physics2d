@@ -175,6 +175,22 @@ public:
     }
 
     /**
+     * Increase the iterations for higher accuracy
+     */
+    final @property void iterations(int n) @trusted
+    {
+        cpSpaceSetIterations(chipSpace, n);
+    }
+
+    /**
+     * Return the number of iterations
+     */
+    final @property int iterations() @trusted
+    {
+        return cpSpaceGetIterations(chipSpace);
+    }
+
+    /**
      * Step through execution of the world
      */
     abstract void step(View!ReadWrite view, float frameTime) @trusted;
