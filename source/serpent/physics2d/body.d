@@ -188,20 +188,20 @@ public:
     final void remove(Shape shape) @trusted
     {
         assert(shape !is null, "Cannot remove shape from body");
+
+        /* Remove shape from world if we have one */
+        auto world = this.world();
+        if (world !is null)
+        {
+            world.remove(shape);
+        }
+
         shape.chipBody = null;
 
         import std.algorithm.mutation : remove;
 
         orphanShapes = orphanShapes.remove!((a) => a == shape);
         attachedShapes = attachedShapes.remove!((a) => a == shape);
-
-        /* Remove shape from world if we have one */
-        auto world = this.world();
-        if (world is null)
-        {
-            return;
-        }
-        world.remove(shape);
     }
 
     /**

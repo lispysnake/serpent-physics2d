@@ -70,7 +70,10 @@ package:
      */
     pragma(inline, true) final @property void chipBody(Body bd) @trusted
     {
-        assert(bd !is null, "Cannot set the body to a null body");
+        if (bd is null)
+        {
+            return;
+        }
         cpShapeSetBody(chipShape, bd.chipBody);
     }
 
