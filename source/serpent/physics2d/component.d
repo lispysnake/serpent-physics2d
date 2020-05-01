@@ -46,7 +46,7 @@ final static void freeComponent(void* v)
  * properties. Note you should a body can only be attached to a single
  * entity, and a component must contain a valid body.
  */
-final @serpentComponent struct PhysicsComponent
+final @serpentComponent(&freeComponent) struct PhysicsComponent
 {
     Body body;
 }

@@ -46,6 +46,7 @@ package:
     this(cpShape* shapePtr)
     {
         chipShape = shapePtr;
+        shapePtr.userData = cast(void*) this;
     }
 
     /**
