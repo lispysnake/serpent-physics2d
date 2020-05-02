@@ -83,6 +83,8 @@ public:
             --runCount;
         }
 
+        _world.processUpdates(view);
+
         /* Find unregistered physics bodies for f+1 */
         foreach (entity, transform, physics; view.withComponents!(TransformComponent,
                 PhysicsComponent))

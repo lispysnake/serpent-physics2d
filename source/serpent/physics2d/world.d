@@ -63,6 +63,5 @@ public:
     final override void step(View!ReadWrite view, float frameTime) @trusted
     {
         cpSpaceStep(chipSpace, cast(cpFloat) frameTime);
-        this.processUpdates(view);
     }
 }
