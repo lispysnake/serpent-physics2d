@@ -91,13 +91,11 @@ public:
             {
                 continue;
             }
-            import std.stdio;
 
             /* Link this body to the entity now */
             physics.body.entity = entity.id;
             /* Sync the position */
             physics.body.position = vec2f(transform.position.x, transform.position.y);
-            writeln(physics.body.position);
             _world.add(physics.body);
         }
     }
