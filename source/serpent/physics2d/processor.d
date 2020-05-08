@@ -38,17 +38,12 @@ private:
 
     AbstractWorld _world = null;
 
-    /* Run physics sim in discrete 60fps steps */
-    const float physicsRate = 1000.0f / 60.0f;
-
-    float timeAccumulated = 0.0f;
-
     /**
      * Update the actual physics simulation with a fixed time step
      */
     final void updateWorldView(View!ReadWrite view)
     {
-        _world.step(view, physicsRate);
+        _world.step(view, context.frameTime);
     }
 
 public:
@@ -73,16 +68,7 @@ public:
      */
     final override void run(View!ReadWrite view)
     {
-        timeAccumulated += context.frameTime;
-
-        uint runCount = cast(uint)(timeAccumulated / physicsRate);
-        timeAccumulated -= (runCount * physicsRate);
-        while (runCount > 0)
-        {
-            updateWorldView(view);
-            --runCount;
-        }
-
+        updateWorldView(view);
         _world.processUpdates(view);
 
         /* Find unregistered physics bodies for f+1 */
