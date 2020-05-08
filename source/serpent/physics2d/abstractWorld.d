@@ -72,6 +72,16 @@ package:
 
     __gshared cpSpace* _space = null;
 
+    /**
+     * Handle proper construction of the world
+     */
+    this(cpSpace* space)
+    {
+        chipSpace = space;
+        chipSpace.userData = cast(void*) this;
+        gravity = vec2f(0.0f, 0.0f);
+    }
+
     pragma(inline, true) final @property cpSpace* chipSpace() @trusted @nogc nothrow
     {
         return _space;
@@ -93,8 +103,6 @@ package:
         cpSpaceEachBody(_space, &updateBody, cast(void*)&view);
 
     }
-
-package:
 
     /**
      * Add body to the world simulation

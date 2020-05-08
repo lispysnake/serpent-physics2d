@@ -46,9 +46,7 @@ public:
      */
     this()
     {
-        chipSpace = cpSpaceNew();
-        chipSpace.userData = cast(void*) this;
-        gravity = vec2f(0.0f, 0.0f);
+        super(cpSpaceNew());
     }
 
     ~this()
