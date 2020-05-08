@@ -136,14 +136,6 @@ package:
     }
 
     /**
-     * Return the internal entity ID for the Body
-     */
-    pragma(inline, true) pure final EntityID entity() @safe @nogc nothrow
-    {
-        return _entity;
-    }
-
-    /**
      * Set the internal entity ID for the Body
      */
     pragma(inline, true) pure final void entity(EntityID id) @safe @nogc nothrow
@@ -365,5 +357,13 @@ public:
         assert(newv.x >= 0.0f, "maxVelocity must have positive X value");
         assert(newv.y >= 0.0f, "maxVelocity must have positive Y value");
         _maxVelocity = newv;
+    }
+
+    /**
+     * Return the internal entity ID for the Body
+     */
+    pragma(inline, true) pure final EntityID entity() @safe @nogc nothrow
+    {
+        return _entity;
     }
 }

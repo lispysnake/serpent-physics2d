@@ -77,19 +77,6 @@ package:
         cpShapeSetBody(chipShape, bd.chipBody);
     }
 
-    /**
-     * Get the Body property
-     */
-    pragma(inline, true) final @property Body chipBody() @trusted
-    {
-        auto bod = cpShapeGetBody(chipShape);
-        if (bod is null)
-        {
-            return null;
-        }
-        return cast(Body) bod.userData;
-    }
-
     pragma(inline, true) final @property AbstractWorld world() @trusted
     {
         auto wod = cpShapeGetSpace(chipShape);
@@ -228,5 +215,18 @@ public:
     pragma(inline, true) final @property void density(float f) @trusted
     {
         cpShapeSetDensity(chipShape, cast(cpFloat) f);
+    }
+
+    /**
+     * Get the Body property
+     */
+    pragma(inline, true) final @property Body chipBody() @trusted
+    {
+        auto bod = cpShapeGetBody(chipShape);
+        if (bod is null)
+        {
+            return null;
+        }
+        return cast(Body) bod.userData;
     }
 }
