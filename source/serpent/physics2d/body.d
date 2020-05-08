@@ -25,6 +25,7 @@ module serpent.physics2d.body;
 public import serpent.physics2d.abstractWorld;
 public import serpent.physics2d.shape;
 public import gfm.math;
+public import std.signals;
 
 import chipmunk;
 import serpent.core.entity : EntityID;
@@ -200,6 +201,12 @@ package:
 
 public:
 
+    /**
+     * Emitted whenever we collide with another body's shape
+     */
+    mixin Signal!(Shape, Shape) collision;
+
+    mixin Signal!(Shape, Shape) sensorActivated;
     /**
      * Return the world instance that this body is in
      */

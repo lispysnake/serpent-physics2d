@@ -77,12 +77,54 @@ private:
     }
 
     /**
-     * Potentially filter collisions
+     * Potentially filter collisions, and handle sensor callbacks
+     * We emit a sensor callback only once in the collision
      */
     extern (C) static final ubyte handleCollisionPreSolve(cpArbiter* arb,
             cpSpace* space, void* udata)
     {
-        return cpTrue;
+
+        cpBody* _bodyA = null;
+        cpBody* _bodyB = null;
+        cpShape* _shapeA = null;
+        cpShape* _shapeB = null;
+
+        if (!cpArbiterIsFirstContact(arb))
+        {
+            return cpTrue;
+        }
+
+        cpArbiterGetBodies(arb, &_bodyA, &_bodyB);
+        cpArbiterGetShapes(arb, &_shapeA, &_shapeB);
+
+        assert(_bodyA.userData !is null, "Missing userData for bodyA");
+        assert(_bodyB.userData !is null, "Missing userData for bodyB");
+        assert(_shapeA.userData !is null, "Missing userData for shapeA");
+        assert(_shapeB.userData !is null, "Missing userData for shapeB");
+
+        Body bodyA = cast(Body) _bodyA.userData;
+        Body bodyB = cast(Body) _bodyB.userData;
+
+        Shape shapeA = cast(Shape) _shapeA.userData;
+        Shape shapeB = cast(Shape) _shapeB.userData;
+
+        if (shapeA.sensor == shapeB.sensor)
+        {
+            return cpTrue;
+        }
+
+        /* Handle sensor callbacks.. */
+        if (shapeA.sensor)
+        {
+            bodyA.sensorActivated.emit(shapeA, shapeB);
+        }
+
+        if (shapeB.sensor)
+        {
+            bodyB.sensorActivated.emit(shapeB, shapeA);
+        }
+
+        return cpFalse;
     }
 
     /**
@@ -91,6 +133,27 @@ private:
     extern (C) static final void handleCollisionPostSolve(cpArbiter* arb,
             cpSpace* space, void* udata)
     {
+        cpBody* _bodyA = null;
+        cpBody* _bodyB = null;
+        cpShape* _shapeA = null;
+        cpShape* _shapeB = null;
+
+        cpArbiterGetBodies(arb, &_bodyA, &_bodyB);
+        cpArbiterGetShapes(arb, &_shapeA, &_shapeB);
+
+        assert(_bodyA.userData !is null, "Missing userData for bodyA");
+        assert(_bodyB.userData !is null, "Missing userData for bodyB");
+        assert(_shapeA.userData !is null, "Missing userData for shapeA");
+        assert(_shapeB.userData !is null, "Missing userData for shapeB");
+
+        Body bodyA = cast(Body) _bodyA.userData;
+        Body bodyB = cast(Body) _bodyB.userData;
+
+        Shape shapeA = cast(Shape) _shapeA.userData;
+        Shape shapeB = cast(Shape) _shapeB.userData;
+
+        bodyA.collision.emit(shapeA, shapeB);
+        bodyB.collision.emit(shapeB, shapeA);
     }
 
 package:
