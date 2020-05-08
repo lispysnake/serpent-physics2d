@@ -68,9 +68,35 @@ private:
         transform.position = vec3f(bd.position.x, bd.position.y, transform.position.z);
     }
 
+    /**
+     * Potentially filter collisions
+     */
+    extern (C) static final ubyte handleCollisionBegin(cpArbiter* arb, cpSpace* space, void* udata)
+    {
+        return cpTrue;
+    }
+
+    /**
+     * Potentially filter collisions
+     */
+    extern (C) static final ubyte handleCollisionPreSolve(cpArbiter* arb,
+            cpSpace* space, void* udata)
+    {
+        return cpTrue;
+    }
+
+    /**
+     * Handle final collision of objects
+     */
+    extern (C) static final void handleCollisionPostSolve(cpArbiter* arb,
+            cpSpace* space, void* udata)
+    {
+    }
+
 package:
 
     __gshared cpSpace* _space = null;
+    __gshared cpCollisionHandler* _handler = null;
 
     /**
      * Handle proper construction of the world
@@ -80,6 +106,13 @@ package:
         chipSpace = space;
         chipSpace.userData = cast(void*) this;
         gravity = vec2f(0.0f, 0.0f);
+
+        /* Hook up handler for collisions */
+        _handler = cpSpaceAddCollisionHandler(chipSpace,
+                cast(cpCollisionType) 0, cast(cpCollisionType) 0);
+        _handler.beginFunc = &handleCollisionBegin;
+        _handler.preSolveFunc = &handleCollisionPreSolve;
+        _handler.postSolveFunc = &handleCollisionPostSolve;
     }
 
     pragma(inline, true) final @property cpSpace* chipSpace() @trusted @nogc nothrow
