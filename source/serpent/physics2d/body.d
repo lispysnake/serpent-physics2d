@@ -65,10 +65,58 @@ private:
         shape.destroy();
     }
 
+    /**
+     * Manually override the chipmunk velocity to a set bound when the
+     * Body has maximumVelocity set. This is largely to prevent tunnelling in
+     * unrealistic simulations, like Pong with infinite mass/bounce
+     */
+    extern (C) static final void velocityUpdateFunc(cpBody* _body,
+            cpVect gravity, cpFloat damping, cpFloat dt)
+    {
+        assert(_body.userData !is null, "Cannot have body without userData");
+        Body body = cast(Body) _body.userData;
+        cpBodyUpdateVelocity(_body, gravity, damping, dt);
+
+        /* Only interested in maximum velocity on dynamic types */
+        if (cpBodyGetType(_body) != cpBodyType.CP_BODY_TYPE_DYNAMIC)
+        {
+            return;
+        }
+
+        /* Ignore zero max velocity - equal to unset */
+        auto maxVelocity = body.maxVelocity;
+        static const auto zerof = vec2f(0.0f, 0.0f);
+        if (maxVelocity == zerof)
+        {
+            return;
+        }
+
+        /* Clamp X velocity in either direction */
+        if (cast(float) _body.v.x > 0.0f && cast(float) _body.v.x > maxVelocity.x)
+        {
+            _body.v.x = cast(cpFloat) maxVelocity.x;
+        }
+        else if (cast(float) _body.v.x < 0.0f && cast(float) _body.v.x < -maxVelocity.x)
+        {
+            _body.v.x = cast(cpFloat)-maxVelocity.x;
+        }
+
+        /* Clamp Y velocity in either direction */
+        if (cast(float) _body.v.y > 0.0f && cast(float) _body.v.y > maxVelocity.y)
+        {
+            _body.v.y = cast(cpFloat) maxVelocity.y;
+        }
+        else if (cast(float) _body.v.y < 0.0f && cast(float) _body.v.y < -maxVelocity.y)
+        {
+            _body.v.y = cast(cpFloat)-maxVelocity.y;
+        }
+    }
+
 package:
 
     cpBody* _body;
     EntityID _entity;
+    vec2f _maxVelocity = vec2f(0.0f, 0.0f);
 
     /**
      * Return pointer to the underlying chipmunk body.
@@ -109,6 +157,8 @@ package:
     {
         _body = chipBody;
         _body.userData = cast(void*) this;
+
+        cpBodySetVelocityUpdateFunc(chipBody, &velocityUpdateFunc);
     }
 
     ~this()
@@ -288,5 +338,25 @@ public:
     final @property void velocity(vec2f v) @trusted
     {
         cpBodySetVelocity(chipBody, cpVect(cast(cpFloat) v.x, cast(cpFloat) v.y));
+    }
+
+    /**
+     * Return the maximum velocity for this body
+     * Default: unset
+     */
+    pure final @property vec2f maxVelocity() @safe nothrow
+    {
+        return _maxVelocity;
+    }
+
+    /**
+     * Set the maximum velocity for this body in positive X/Y
+     * velocities.
+     */
+    pure final @property void maxVelocity(vec2f newv) @safe
+    {
+        assert(newv.x >= 0.0f, "maxVelocity must have positive X value");
+        assert(newv.y >= 0.0f, "maxVelocity must have positive Y value");
+        _maxVelocity = newv;
     }
 }
