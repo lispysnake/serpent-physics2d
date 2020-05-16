@@ -48,8 +48,10 @@ public:
      */
     this(box2f box, float radius = 0.0f)
     {
-        auto cpBoxed = cpBBNew(cast(cpFloat) box.min.x, cast(cpFloat) box.min.y,
-                cast(cpFloat) box.max.x, cast(cpFloat) box.max.y);
+        auto l = box.min.x;
+        auto b = box.min.y;
+        auto cpBoxed = cpBBNew(cast(cpFloat) l, cast(cpFloat) b,
+                cast(cpFloat) l + box.max.x, cast(cpFloat) l + box.max.y);
         super(cpBoxShapeNew2(null, cpBoxed, cast(cpFloat) radius));
     }
 
