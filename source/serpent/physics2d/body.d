@@ -67,22 +67,58 @@ private:
     }
 
     /**
-     * Manually override the chipmunk velocity to a set bound when the
-     * Body has maximumVelocity set. This is largely to prevent tunnelling in
-     * unrealistic simulations, like Pong with infinite mass/bounce
+     * Clamp minimum velocity for a dynamic body
+     *
+     * In some situations (i.e. the paddle demo) with unrealistic
+     * physics, the reality of physics sets in and we loose too much
+     * velocity on a corner-hit.
+     *
+     * To alleviate this, we can set a minimum velocity for bodies that
+     * should remain in motion with a constant minimum velocity.
      */
-    extern (C) static final void velocityUpdateFunc(cpBody* _body,
-            cpVect gravity, cpFloat damping, cpFloat dt)
+    extern (C) static final void velocityClampMinimum(cpBody* _body)
     {
-        assert(_body.userData !is null, "Cannot have body without userData");
         Body body = cast(Body) _body.userData;
-        cpBodyUpdateVelocity(_body, gravity, damping, dt);
-
-        /* Only interested in maximum velocity on dynamic types */
-        if (cpBodyGetType(_body) != cpBodyType.CP_BODY_TYPE_DYNAMIC)
+        auto minVelocity = body.minVelocity;
+        static const auto zerof = vec2f(0.0f, 0.0f);
+        if (minVelocity == zerof)
         {
             return;
         }
+
+        /* Clamp minimum X velocity in either direction */
+        if (cast(float) _body.v.x >= 0.0f && cast(float) _body.v.x < minVelocity.x)
+        {
+            _body.v.x = cast(cpFloat) minVelocity.x;
+        }
+        else if (cast(float) _body.v.x < 0.0f && cast(float) _body.v.x > -minVelocity.x)
+        {
+            _body.v.x = cast(cpFloat)-minVelocity.x;
+        }
+
+        /* Clamp minimum Y velocity in either direction */
+        if (cast(float) _body.v.y >= 0.0f && cast(float) _body.v.y < minVelocity.y)
+        {
+            _body.v.y = cast(cpFloat) minVelocity.y;
+        }
+        else if (cast(float) _body.v.y < 0.0f && cast(float) _body.v.y > -minVelocity.y)
+        {
+            _body.v.x = cast(cpFloat)-minVelocity.y;
+        }
+    }
+
+    /**
+     * Clamp maximum velocity for a dynamic body
+     *
+     * This is used to prevent tunnelling issues when using unrealistic
+     * physics simulations, such as the paddle demo.
+     *
+     * Too high a velocity will result in the balls leaving the play
+     * area.
+     */
+    extern (C) static final void velocityClampMaximum(cpBody* _body)
+    {
+        Body body = cast(Body) _body.userData;
 
         /* Ignore zero max velocity - equal to unset */
         auto maxVelocity = body.maxVelocity;
@@ -113,11 +149,31 @@ private:
         }
     }
 
+    /**
+     * Manually handle maximum and minimum velocities
+     */
+    extern (C) static final void velocityUpdateFunc(cpBody* _body,
+            cpVect gravity, cpFloat damping, cpFloat dt)
+    {
+        assert(_body.userData !is null, "Cannot have body without userData");
+        cpBodyUpdateVelocity(_body, gravity, damping, dt);
+
+        /* Only interested in maximum velocity on dynamic types */
+        if (cpBodyGetType(_body) != cpBodyType.CP_BODY_TYPE_DYNAMIC)
+        {
+            return;
+        }
+
+        velocityClampMinimum(_body);
+        velocityClampMaximum(_body);
+    }
+
 package:
 
     cpBody* _body;
     EntityID _entity;
     vec2f _maxVelocity = vec2f(0.0f, 0.0f);
+    vec2f _minVelocity = vec2f(0.0f, 0.0f);
 
     /**
      * Return pointer to the underlying chipmunk body.
@@ -357,6 +413,21 @@ public:
         assert(newv.x >= 0.0f, "maxVelocity must have positive X value");
         assert(newv.y >= 0.0f, "maxVelocity must have positive Y value");
         _maxVelocity = newv;
+    }
+
+    /**
+     * Return the minimum velocity for this body
+     */
+    pure final @property vec2f minVelocity() @safe nothrow
+    {
+        return _minVelocity;
+    }
+
+    pure final @property void minVelocity(vec2f newv) @safe
+    {
+        assert(newv.x >= 0.0f, "minVelocity must have positive X value");
+        assert(newv.y >= 0.0f, "minVelocity must have positive Y value");
+        _minVelocity = newv;
     }
 
     /**
