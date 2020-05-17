@@ -50,9 +50,9 @@ public:
 
     this()
     {
-        import serpent.physics2d.parallelWorld;
+        import serpent.physics2d.world;
 
-        _world = new ParallelWorld();
+        _world = new World();
     }
 
     /**
