@@ -27,6 +27,7 @@ public import gfm.math;
 
 import chipmunk;
 import serpent.core.view;
+import core.stdc.config : c_ulong;
 
 /**
  * Multi-threaded World implementation
@@ -63,7 +64,7 @@ public:
      */
     final @property ulong threads() @trusted
     {
-        return cpHastySpaceGetThreads(chipSpace);
+        return cast(ulong) cpHastySpaceGetThreads(chipSpace);
     }
 
     /**
@@ -71,6 +72,6 @@ public:
      */
     final @property void threads(ulong t) @trusted
     {
-        cpHastySpaceSetThreads(chipSpace, t);
+        cpHastySpaceSetThreads(chipSpace, cast(c_ulong) t);
     }
 }
