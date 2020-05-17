@@ -103,7 +103,7 @@ private:
         }
         else if (cast(float) _body.v.y < 0.0f && cast(float) _body.v.y > -minVelocity.y)
         {
-            _body.v.x = cast(cpFloat)-minVelocity.y;
+            _body.v.y = cast(cpFloat)-minVelocity.y;
         }
     }
 
