@@ -1,0 +1,3 @@
+[submodule "external/chipmunkd"]
+	path = external/chipmunkd
+	url = https://github.com/lispysnake/chipmunkd.git
