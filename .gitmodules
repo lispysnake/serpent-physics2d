@@ -1,3 +1,0 @@
-[submodule "external/chipmunkd"]
-	path = external/chipmunkd
-	url = https://github.com/rcorre/chipmunkd.git
