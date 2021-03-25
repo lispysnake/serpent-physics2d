@@ -31,7 +31,7 @@ public import serpent.physics2d.body;
 public import gfm.math;
 
 import chipmunk;
-import serpent.core.view;
+import serpent.ecs.view;
 
 /**
  * The default World implementation is single-threaded in nature

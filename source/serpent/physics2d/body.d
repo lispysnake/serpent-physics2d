@@ -28,7 +28,7 @@ public import gfm.math;
 public import std.signals;
 
 import chipmunk;
-import serpent.core.entity : EntityID;
+import serpent.ecs.entity : EntityID;
 
 /**
  * A Rigid Body is a composition of shapes that are used to provide physics

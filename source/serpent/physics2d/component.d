@@ -23,7 +23,7 @@
 module serpent.physics2d.component;
 
 public import serpent.physics2d.body : Body;
-public import serpent.core.component;
+public import serpent.ecs.component;
 
 /**
  * Ensrre that a cpBody is correctly removed from the space and that
